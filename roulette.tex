@@ -1,0 +1,139 @@
+\documentclass{book} 
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{placeins}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{snakes}
+\usetikzlibrary{decorations.pathmorphing}
+
+\hypersetup{colorlinks=true,linkcolor=blue, linktocpage}
+
+\title{Roulette}
+\author{Saman Saadi}
+\date{}
+
+\lstdefinestyle{customcpp}{
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=\parindent,
+	language=C++,
+	frame=single,
+	showstringspaces=false,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries\color{green!40!black},
+	commentstyle=\itshape\color{purple!40!black},
+	identifierstyle=\color{black},
+	stringstyle=\color{orange},
+	emph={int,char,double,float,unsigned, auto},
+	emphstyle={\color{blue}}
+}
+
+\lstset{escapechar=@,style=customcpp}
+
+\begin{document}
+	\frontmatter
+	\maketitle
+	\mainmatter
+	\section{Summary}
+	Let's assume we want to bet for the round $i^{th}$ in a game and our target profit is \$$p$ for each round until we win. So far we lost in the previous rounds. We call The amount of bet in $i^{th}$ round, $b_i$:
+	\begin{equation*}
+		b_i = 2 \times b_{i - 1}
+	\end{equation*}
+	Or we can say:
+	\begin{equation*}
+		b_i = (2^{i - 1}) \times p
+	\end{equation*}
+	In other words, if our previous bet was $x$, we should bet $2 \times x$ this time!
+	\par If we want to afford to lose ${n - 1}$ times in a row and win in the $n^{th}$ round, our budget should be:
+	\begin{equation*}
+		budget = (2^n - 1) \times p
+	\end{equation*}
+	\section{Expected value}
+	The American roulette has 37 pockets and the Canadian has 36. We use $n$ for the number of pockets in the wheel. Let's assume we bet on $p$ numbers. For example for betting on number $1$, $p = 1$ and for a red number $p = 18$. The payout is $36 - p$ to $p$. That means for every \$$p$ bet, we get \$$36 - \$p$. We also receive the original \$$p$. So our total balance for \$$1$ bet if we would win is:
+	\begin{equation*}
+		\begin{split}
+			&\frac{36 - p + p}{p} \\
+			&= \frac{36}{p}
+		\end{split}
+	\end{equation*}
+	If we lose, we lost \$$1$. So the expected value is:
+	\begin{equation*}
+		\begin{split}
+			E &= \frac{36 - p}{p} \times \frac{p}{n} - \frac{p}{p} \times \frac{n - p}{n} \\
+			&= \frac{36 - p}{n} - \frac{n - p}{n} \\
+			&= \frac{36 - n}{n} \\
+			&= \frac{36}{n} - 1
+		\end{split}
+	\end{equation*}
+	As you can see the expected value is not related to our choice! If we have 36 pockets, it's zero and we can call it a fair game. In Canada it's $\frac{36}{37} - 1 = -0.027$ and in the US it's $\frac{36}{38} - 1 = -0.053$. In other words, in Canada on average we should lose 3 cents per dollar and in US, 5 cents per dollar.
+	\section{General case}
+	Let's assume we are in round $i^{th}$ of a game. We can calculate the balance for round $i$ that we call it $b_i$. We want to make $p$ unrealized profit/loss for this game, assuming we eventually win in this round
+	\subsection{Mathematical induciton}
+	We define $b_i$ as the amount of bet for round $i$ in such a way that if we win round $i$, our total profit for this game would be $p$. We use mathematical induciton and we assume we know how to solve $b_{i - 1}$.
+	\subsubsection{When $b_{i - 1} < 0$}
+	Let's assume we will win at the end of round $i$ and our profit will be $p$. In round $i - 1$ we lost $b_{i - 1}$ so we just need to spend $b_{i - 1}$ to cancel it. We use mathematical hypotheis and spend another $b_{i - 1}$ to cancel losses for rounds $1$ to $i - 2$ and gain $p$ at the end of the round (assuming we will win): 
+	\begin{equation*}
+		\begin{split}
+			b_i &= \sum_{j = 0}^{i - 1}{b_j} - p \\
+			&= \underbrace{\sum_{j = 0}^{i - 2}{b_j} - p}_{b_{i - 1}} + b_{i - 1} \\
+			&= 2 \times b_{i - 1}
+		\end{split}
+	\end{equation*}
+	\subsubsection{When $b_{i - 1} \ge 0$}
+	Note that if $b_{i - 1} \ge p$, we've already achieved our goal and no need to continue the game for the profit $p$. We may increase the target profit to a more ambition one later.
+	\par Let's assume $b_{i - 1} > 0 \land b_{i - 1} < p$ and we will win at the end of round $i$ and our profit will be $p$:
+	\begin{equation*}
+		\begin{split}
+			b_{i - 1} + \underbrace{x}_{bet} \underbrace{- 2 \times x}_{rewards} &=  p \\
+			\implies x &= b_{i - 1} - p
+		\end{split}
+	\end{equation*}
+	So we just need to bet on $b_{i - 1} - p$ and if we win this round our profit will be $p$.
+	\subsection{General Formula}
+	\begin{equation*}
+		b_i = \begin{cases}
+			2 \times b_{i - 1} & b_{i - 1} < 0 \\
+			b_{i - 1} - p & b_{i - 1} \ge 0 \land b_{i - 1} < p \\
+			b_{i - 1} & b_{i - 1} \ge 0 \land b_{i - 1} \ge p \\
+			b_0 -p & i = 1
+		\end{cases}	
+	\end{equation*}
+	Note that we define $b_1 = b_0 - p$. Usually $b_0 = 0$, but if in the round $k$ we decide to change $p$ to $p^{\prime}$. Then we can initiate a new game with $b_0 = b_k$ and profit $p^\prime$.  
+	\section{Losing all previous rounds}
+	Let's consider the worst case scenario and we are going to lose in $n$ rounds in a row:
+	\begin{equation*}
+		\begin{split}
+			b_0 &= 0 \\
+			b_1 &= b_0 - p = -p \\
+			b_2 &= 2 \times b_1 = -2p \\
+			b_3 &= 2 \times b_2 = -4p \\
+			b_4 &= 2 \times b_3 = -8p \\
+			&\vdots \\
+			b_{n} &= 2 \times b_{n - 1} = -2^{n - 1} \times p
+	     \end{split}
+	\end{equation*}
+	\section{Budget for $n$ rounds}
+	Now let's calculate what should be our budget if we can afford to lose in ${n -1}$ rounds and win at round $n$. We assume $r_i$ is our loss in round $i^{th}$ for $1 \le i \le n - 1$
+	\begin{equation*}
+		\begin{split}
+			budget &= -\sum_{i = 0}^{n}{b_i} \\
+			&= \sum_{i = 0}^{n}{2^{i - 1} \times p} \\
+			&= (2^n - 1) \times p
+		\end{split}
+	\end{equation*}
+	Note that we use the following formula to get the budget:
+	\begin{equation*}
+		\sum_{i = 0}^{n}{2^i} = 2^{n + 1} - 1
+	\end{equation*}
+\end{document}
