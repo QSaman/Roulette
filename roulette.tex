@@ -60,30 +60,30 @@
 		budget = (2^n - 1) \times p
 	\end{equation*}
 	\section{Expected value}
-	The American roulette has 37 pockets and the Canadian has 36. We use $n$ for the number of pockets in the wheel. Let's assume we bet on $p$ numbers. For example for betting on number $1$, $p = 1$ and for a red number $p = 18$. The payout is $36 - p$ to $p$. That means for every \$$p$ bet, we get \$$36 - \$p$. We also receive the original \$$p$. So our total balance for \$$1$ bet if we would win is:
+	The American roulette has 37 pockets and the Canadian has 36. We use $n$ for the number of pockets in the wheel. Let's assume we bet on $c$ numbers. For example for betting on number $1$, $c = 1$ and for a red number $c = 18$. The payout is $36 - c$ to $c$. That means for every \$$c$ bet, we get \$$36 - \$c$. We also receive the original \$$c$. So our total balance for \$$1$ if we would win is:
 	\begin{equation*}
 		\begin{split}
-			&\frac{36 - p + p}{p} \\
-			&= \frac{36}{p}
+			&\frac{36 - c + c}{c} \\
+			&= \frac{36}{c}
 		\end{split}
 	\end{equation*}
-	If we lose, we lost \$$1$. So the expected value is:
+	If we lose, we lose \$$1$. So the expected value is:
 	\begin{equation*}
 		\begin{split}
-			E &= \frac{36 - p}{p} \times \frac{p}{n} - \frac{p}{p} \times \frac{n - p}{n} \\
-			&= \frac{36 - p}{n} - \frac{n - p}{n} \\
+			E &= \frac{36 - c}{c} \times \frac{c}{n} - \frac{c}{c} \times \frac{n - c}{n} \\
+			&= \frac{36 - c}{n} - \frac{n - c}{n} \\
 			&= \frac{36 - n}{n} \\
 			&= \frac{36}{n} - 1
 		\end{split}
 	\end{equation*}
 	As you can see the expected value is not related to our choice! If we have 36 pockets, it's zero and we can call it a fair game. In Canada it's $\frac{36}{37} - 1 = -0.027$ and in the US it's $\frac{36}{38} - 1 = -0.053$. In other words, in Canada on average we should lose 3 cents per dollar and in US, 5 cents per dollar.
-	\par As an example, let's assume we have 3 chips with the value of \$$\frac{1}{3}$. We bet one of them on black, the other on an even number and the other on a number greater than 18. Note that all of our bets are in the same round. we assume $r = \frac{p}{n}$. The expected value is:
+	\par As an example, let's assume we have 3 chips with the value of \$$\frac{1}{3}$. We bet one of them on black, the other on an even number and the other on a number greater than 18. Note that all of our bets are in the same round. we assume $p = \frac{c}{n}$. The expected value is:
 	\begin{equation*}
 		\begin{split}
-			E &= \underbrace{\frac{3}{3} \times r^3}_{\text{3 wins}} \\
-			  &+ \underbrace{(\frac{2}{3} - \frac{1}{3}) \times r^2 \times (1 - r)}_{\text{2 wins and 1 loss}} \\
-			  &+ \underbrace{(\frac{1}{3} - \frac{2}{3}) \times r \times (1 - r)^2}_{\text{1 win and 2 losses}} \\
-			  &+ \underbrace{(-\frac{3}{3}) \times (1 - r)^3}_{\text{3 losses}} \\
+			E &= \underbrace{\frac{3}{3} \times p^3}_{\text{3 wins}} \\
+			  &+ \underbrace{(\frac{2}{3} - \frac{1}{3}) \times p^2 \times (1 - p)}_{\text{2 wins and 1 loss}} \\
+			  &+ \underbrace{(\frac{1}{3} - \frac{2}{3}) \times p \times (1 - p)^2}_{\text{1 win and 2 losses}} \\
+			  &+ \underbrace{(-\frac{3}{3}) \times (1 - p)^3}_{\text{3 losses}} \\
 			  &= -0.023
 		\end{split}
 	\end{equation*}
