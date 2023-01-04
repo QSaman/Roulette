@@ -81,15 +81,34 @@
 	\begin{equation*}
 		\begin{split}
 			E &= \underbrace{\frac{3}{3} \times p^3}_{\text{3 wins}} \\
-			  &+ \underbrace{(\frac{2}{3} - \frac{1}{3}) \times p^2 \times (1 - p)}_{\text{2 wins and 1 loss}} \\
-			  &+ \underbrace{(\frac{1}{3} - \frac{2}{3}) \times p \times (1 - p)^2}_{\text{1 win and 2 losses}} \\
+			  &+ \underbrace{(\frac{2}{3} - \frac{1}{3}) \times \binom{3}{2} \times p^2 \times (1 - p)}_{\text{2 wins and 1 loss}} \\
+			  &+ \underbrace{(\frac{1}{3} - \frac{2}{3}) \times \binom{3}{2} \times p \times (1 - p)^2}_{\text{1 win and 2 losses}} \\
 			  &+ \underbrace{(-\frac{3}{3}) \times (1 - p)^3}_{\text{3 losses}} \\
-			  &= -0.023
+			  &= p^3 + \frac{1}{3} \times 3 \times p^2 \times (1 - p) - \frac{1}{3} \times 3 \times p \times (1 - p)^2 - (1 - p)^3 \\
+			  &= p^3 + p^2 \times (1 - p) - p \times (1 - p)^2 - (1 - p)^3 \\
+			  &= 2 \times p - 1
 		\end{split}
 	\end{equation*}
-	We assumed we played in Canada ($n = 37$).
+	\par Now let's assume we have 2 chips with the value of \$$\frac{1}{2}$. We bet one of them on black and the other on an even number in the same round. The expected value is:
+	\begin{equation*}
+		\begin{split}
+			E &= (\frac{1}{2} + \frac{1}{2}) \times p^2 \\
+			&+ (\frac{1}{2} - \frac{1}{2}) \times \binom{2}{1} \times p * (1 - p) \\
+			&+(-\frac{1}{2} - \frac{1}{2}) \times (1 - p)^2 \\
+			&= p^2 - (1 - p)^2 \\
+			&= 2 \times p - 1
+		\end{split}
+	\end{equation*}
+	\par Now let's assume we have a chip of value \$$1$ and we bet on a black number. The expected value is:
+	\begin{equation*}
+		\begin{split}
+			E &= 1 \times p - 1 \times (1 - p) \\
+			&= 2 \times p - 1			
+		\end{split}
+	\end{equation*}
+	So it doesn't matter what we choose, we are going to lose $2 \times p - 1 = -0.027$ per dollar in Canada! It's almost $3$ cents per dollar.
 	\section{Chance of winning}
-	In each round the change of winning in Canada is $\frac{18}{37} \simeq 49\%$ and the chance of loss is $\frac{19}{37} \simeq 51\%$. In the US the chance of winning is $\frac{18}{38} \simeq 47\%$ and the change of loss is $\frac{20}{38} \simeq 53\%$.
+	In each round the change of winning in Canada is $\frac{18}{37} \simeq 49\%$ and the chance of loss is $\frac{19}{37} \simeq 51\%$. In the US the chance of winning is $\frac{18}{38} \simeq 47\%$ and the chance of loss is $\frac{20}{38} \simeq 53\%$.
 	\par Please refer to this \href{https://www.youtube.com/watch?v=56iFMY8QW2k}{MIT lecture} For a more detailed explanation.
 	\section{General case}
 	Let's assume we are in round $i^{th}$ of a game. We can calculate the balance for round $i$ that we call it $b_i$. We want to make $p$ unrealized profit/loss for this game, assuming we eventually win in this round
