@@ -77,13 +77,13 @@
 		\end{split}
 	\end{equation*}
 	As you can see the expected value is not related to our choice! If we have 36 pockets, it's zero and we can call it a fair game. In Canada it's $\frac{36}{37} - 1 = -0.027$ and in the US it's $\frac{36}{38} - 1 = -0.053$. In other words, in Canada on average we should lose 3 cents per dollar and in US, 5 cents per dollar.
-	\par As an example, let's assume we have 3 chips with the value of \$$\frac{1}{3}$. We bet one of them on black, the other on an even number and the other on a number greater than 18. Note that all of our bets are in the same round. The expected value is:
+	\par As an example, let's assume we have 3 chips with the value of \$$\frac{1}{3}$. We bet one of them on black, the other on an even number and the other on a number greater than 18. Note that all of our bets are in the same round. we assume $r = \frac{p}{n}$. The expected value is:
 	\begin{equation*}
 		\begin{split}
-			E &= \frac{3}{3} \times p^3 \\
-			  &+ (\frac{2}{3} - \frac{1}{3}) \times p^2 \times (1 - p) \\
-			  &+ (\frac{1}{3} - \frac{2}{3}) \times p \times (1 - p)^2 \\
-			  &+ (-\frac{3}{3}) \times (1 - p)^3 \\
+			E &= \underbrace{\frac{3}{3} \times r^3}_{\text{3 wins}} \\
+			  &+ \underbrace{(\frac{2}{3} - \frac{1}{3}) \times r^2 \times (1 - r)}_{\text{2 wins and 1 loss}} \\
+			  &+ \underbrace{(\frac{1}{3} - \frac{2}{3}) \times r \times (1 - r)^2}_{\text{1 win and 2 losses}} \\
+			  &+ \underbrace{(-\frac{3}{3}) \times (1 - r)^3}_{\text{3 losses}} \\
 			  &= -0.023
 		\end{split}
 	\end{equation*}
