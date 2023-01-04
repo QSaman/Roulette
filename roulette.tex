@@ -89,6 +89,15 @@
 			  &= 2 \times p - 1
 		\end{split}
 	\end{equation*}
+	Note that we should multiply the probability by $\binom{3}{2}$ when we have 2 wins and 1 loss. Because the status of the chips is one of the three sequences ($W$ means win and $L$ means loss):
+	\begin{equation*}
+		\begin{split}
+		WWL \\
+		WLW \\
+		WWL \\
+		\end{split}		
+	\end{equation*}
+	The probablity of each of these sequenes is $p^2 \times (1 - p)$. We use the same logic for 2 losses and 1 win.
 	\par Now let's assume we have 2 chips with the value of \$$\frac{1}{2}$. We bet one of them on black and the other on an even number in the same round. The expected value is:
 	\begin{equation*}
 		\begin{split}
