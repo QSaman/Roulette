@@ -10,6 +10,8 @@
 \usepackage{amssymb}
 \usepackage{listings}
 \usepackage{hyperref}
+% For tables:
+\usepackage{booktabs}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows}
@@ -119,6 +121,140 @@
 	\section{Chance of winning}
 	In each round the change of winning in Canada is $\frac{18}{37} \simeq 49\%$ and the chance of loss is $\frac{19}{37} \simeq 51\%$. In the US the chance of winning is $\frac{18}{38} \simeq 47\%$ and the chance of loss is $\frac{20}{38} \simeq 53\%$.
 	\par Please refer to this \href{https://www.youtube.com/watch?v=56iFMY8QW2k}{MIT lecture} For a more detailed explanation.
+	\subsection{Playing only one round}
+	Let's assume we only play 1 round. No matter what is the result, we leave casino at the end of the first round. In Canada $p = \frac{18}{37}$ and in the US $p = \frac{18}{38}$. In other words we only play for 1 to 1 payout like betting on colors.
+	\subsubsection{One chip}
+	The probability of win is $p$ and the loss is $1 - p$. \\
+	\par
+	\begin{tabular}[h!]{c c c}
+		\toprule
+		Country & Win & Loss \\
+		\midrule
+		Canada & 49\% & 51\% \\
+		US & 47\% & 53\% \\
+		\bottomrule
+	\end{tabular} \\
+	\subsubsection{Two chips}
+	Let's say we have two chips with the same value. We bet the first chip on black and the second on an even number. If one of the chips wins and the other loses, it's a tie. So we don't gain or lose money. So we have:
+	\begin{equation*}
+		\begin{split}
+			\text{Win} &= p^2 \\
+			\text{Loss} &= (1 - p)^2 \\
+			\text{Tie} &= \binom{2}{1} \times p \times (1 - p) = 2 \times p \times (1 - p)
+		\end{split}
+	\end{equation*}
+	So we have: \\
+	\par 
+	\begin{tabular}[h!]{c c c c}
+		\toprule
+		Country & Win & Loss & Tie \\
+		\midrule
+		Canada & 24\% & 26\% & 50\% \\
+		US & 22\% & 28\% & 50\% \\
+		\bottomrule
+	\end{tabular} \\
+	\par Note that in Canada the chance of not losing money is 74\% and in the US is 72\%.
+	\subsubsection{Three chips}
+	Let's say we have 3 chips with the same value. We bet the first chip on black and the second on an even number and the third on the first 18 numbers.
+	\par At least 2 chips should be in win status to get money; otherwise we lose money. Unlike previous case, there is no tie here. So we have:
+	\begin{equation*}
+		\begin{split}
+			\text{Win} &= p^3 + \binom{3}{2} \times p^2 \times (1 - p) \\
+			\text{Loss} &= (1 - p)^3 + \binom{3}{2} \times p \times (1 - p)^2
+		\end{split}
+	\end{equation*}
+	So we have: \\
+	\par
+	\begin{tabular}[h!]{c c c}
+	\toprule
+	Country & Win & Loss \\
+	\midrule
+	Canada & 48\% & 52\% \\
+	US & 46\% & 54\% \\
+	\bottomrule
+\end{tabular} \\
+	\par
+	\par As you can see this is worse than 1 chip!
+	\subsubsection{Four chips}
+	Let's assume we have chip $L$ with value \$$d$ and three chips $H_1, H_2$ and $H_3$ with value \$$2d$. We bet $L$ on column 1 with probability $q = \frac{12}{n}$. The payout is 2 to 1. We bet the other chips as before with payout 1 to 1. We can win ($T$), lose ($L$) or tie ($T$). The chance column is based on Canadian casinos: \\
+	\par
+	\begin{tabular}[h!]{c c c c c c c c}
+		\toprule
+		$H_1$ & $H_2$ & $H_3$ & L & Wins & Balance & Result & Chance \\
+		\midrule
+		W & W & W & W & 4 & 8d & W & 4\% \\
+		W & W & W & L & 3 & 5d & W & 8\% \\
+		L & W & W & W & 3 & 4d & W & 12\% \\
+		L & W & W & L & 2 & d & W & 25\% \\
+		L & L & W & W & 2 & 0 & T & 12\% \\
+		L & L & W & L & 1 & -3d & L & 26\% \\
+		L & L & L & W & 1 & -4d & L & 4\% \\
+		L & L & L & L & 0 & -7d & L & 9\% \\
+		\bottomrule
+	\end{tabular} \\	
+	\par
+	For example for winning all the chips our balance will be:
+	\begin{equation*}
+		\begin{split}
+			\text{Balance} &= \underbrace{3 \times -2d - d}_\text{bet} + \underbrace{3 \times 4d}_\text{$H_1$ to $H_3$} + \underbrace{d + 2d}_\text{L} \\
+			&= 8d
+		\end{split}
+	\end{equation*}
+	Th probabilities are:
+	\begin{equation*}
+		\begin{split}
+			\text{Win} &= \underbrace{p^3 \times q}_{\text{4 wins}} \\
+			&+ \underbrace{p^3 \times (1 - q)}_\text{3 wins} \\
+			&+ \underbrace{\binom{3}{2} \times p^2 \times (1 - p) \times q}_\text{3 wins} \\
+			&+ \underbrace{\binom{3}{2} \times p^2 \times (1 - p) \times (1 - q)}_\text{2 wins} \\
+		\end{split}
+	\end{equation*}
+	For tie:
+	\begin{equation*}
+		\text{Tie} = \underbrace{\binom{3}{1} \times p * (1 - p)^2 \times q}_\text{2 wins}
+	\end{equation*}
+	For loss:
+	\begin{equation*}
+		\begin{split}
+			\text{Loss} &= \underbrace{\binom{3}{1} \times p \times (1 - p)^2 \times (1 - q)}_\text{1 win} \\
+			&+ \underbrace{(1 - p)^3 \times q}_\text{1 win} \\
+			&+ \underbrace{(1 - p)^3 \times (1 - q)}_\text{0 win}
+		\end{split}
+	\end{equation*}
+	So we have: \\
+	\par 
+	\begin{tabular}[h!]{c c c c}
+		\toprule
+		Country & Win & Loss & Tie \\
+		\midrule
+		Canada & 48\% & 40\% & 12\% \\
+		US & 46\% & 42\% & 12\% \\
+		\bottomrule
+	\end{tabular} \\
+	\par In Canada the chance of not losing money is 60\% and in the US is 58\%. We can also calculate the expected value. We assume $d = \frac{1}{7}$ so the value of all 4 chips is 1 dollar. Again we are assuming it's a Canadian casino:
+	\begin{equation*}
+		\begin{split}
+			E(\text{win}) &= (3 \times \frac{2}{7} + \frac{2}{7}) \times p^3 \times q \\
+			&+ (3 \times \frac{2}{7} - \frac{1}{7}) \times p^3 \times (1 - q) \\
+			&+ (2 \times \frac{2}{7} - \frac{2}{7} + \frac{2}{7}) \times 3 \times p^2 \times (1 - p) \times q \\
+			&+ (2 \times \frac{2}{7} - \frac{2}{7} - \frac{1}{7}) \times 3 \times p^2 \times (1 - p) \times (1 - q) \\
+			&= 0.201
+		\end{split}
+	\end{equation*}
+	and for the loss:
+	\begin{equation*}
+		\begin{split}
+			E(\text{loss}) &= (\frac{2}{7} - 2 \times \frac{2}{7} - \frac{1}{7}) \times 3 \times p \times (1 - p)^2 \times (1 - q) \\
+			&+ (-3 \times \frac{2}{7} + \frac{2}{7}) \times (1 - p)^3 \times q \\
+			&+ (-3 \times \frac{2}{7} - \frac{1}{7}) \times (1 - p)^3 \times (1 - q) \\
+			&= -0.228
+		\end{split}
+	\end{equation*}
+	So in total we have:
+	\begin{equation*}
+		E = E(\text{win}) + E(\text{loss}) = -0.027
+	\end{equation*}
+	This is exactly $E = \frac{36}{n} - 1$. No matter what choices we make, we are going to lose money on average.
 	\section{General case}
 	Let's assume we are in round $i^{th}$ of a game. We can calculate the balance for round $i$ that we call it $b_i$. We want to make $p$ unrealized profit/loss for this game, assuming we eventually win in this round
 	\subsection{Mathematical induciton}
