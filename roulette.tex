@@ -154,6 +154,80 @@
 		\bottomrule
 	\end{tabular} \\
 	\par Note that in Canada the chance of not losing money is 74\% and in the US is 72\%.
+	\par Let's try to improve our approach. We have payouts like choosing a color that is 1 to 1 and choosing a column that is 2 to 1. The probability of the former is $p = \frac{18}{n}$ and the latter is $q = \frac{12}{n}$. We bet chip $H$ with value $d$ on black number and we bet chip $L$ with value $x$ on the first column. Let's find the value of $x$:
+	\begin{equation*}
+		\begin{split}
+			\underbrace{-x -d}_\text{bet} + x + 2 \times x &= 0 \\
+			\implies x = \frac{d}{2}			
+		\end{split}
+	\end{equation*}
+	So we can assume the value of $L$ is $d$ and the value of $H$ is $2d$. We bet $L$ on the first column with payout 2 to 1 and we bet $H$ on black with payout 1 to 1. Let's assume $WL$ means $H$ wins its bet and $L$ loses its bet. The profit will be:
+	\begin{equation*}
+		\begin{split}
+			WW &= \underbrace{2d}_\text{H} + \underbrace{2d}_\text{L} = 4d \\
+			WL &= \underbrace{2d}_\text{H} \underbrace{-d}_\text{L} = d \\
+			LW &= \underbrace{-2d}_\text{H} + \underbrace{2d}_\text{L} = 0 \\
+			LL &= -2d - d = -3d
+		\end{split}
+	\end{equation*}
+	Now we can have a table like this that $W$ means win, $L$ loss and $T$ tie: \\
+	\par
+	\begin{tabular}[h!]{c c c c c c}
+		\toprule
+		H & L & Wins & Profit & Result & Chance \\
+		\midrule
+		W & W & 2 & 4d & W & 16\% \\
+		W & L & 1 & d & W & 33\% \\
+		L & W & 1 & 0 & T & 16\% \\
+		L & L & 0 & -3d & L & 35\% \\
+		\bottomrule
+	\end{tabular} \\	
+	\par The probability of win is:
+	\begin{equation*}
+		\begin{split}
+			\text{win} &= p \times q \\
+			&+ p \times (1 - q) \\
+			&= p
+		\end{split}
+	\end{equation*}
+	For the tie:
+	\begin{equation*}
+		\begin{split}
+			\text{tie} &= (1 - p) \times q
+		\end{split}
+	\end{equation*}
+	For the loss:
+	\begin{equation*}
+		\begin{split}
+			\text{loss} &= (1 - p) \times (1 - q)
+		\end{split}
+	\end{equation*}
+	So we have: \\
+	\par 
+	\begin{tabular}[h!]{c c c c}
+		\toprule
+		Country & Win & Loss & Tie \\
+		\midrule
+		Canada & 48\% & 35\% & 17\% \\
+		US & 47\% & 36\% & 17\% \\
+		\bottomrule
+	\end{tabular} \\
+	\par
+	So the chance of not losing in Canada is 65\% and in the US is 64\%. Let's calculate the expected value. We assume the value of $H$ is $\frac{2}{3}$ and the value of $L$ is $\frac{1}{3}$. For calculation we assume it's a Canadian casino:
+	\begin{equation*}
+		\begin{split}
+			E(\text{win}) &= (\frac{2}{3} + \frac{2}{3}) \times p \times q \\
+			&+ (\frac{2}{3} - \frac{1}{3}) \times p \times (1 - q) \\
+			&= 0.31994
+		\end{split}
+	\end{equation*}
+	\begin{equation*}
+		\begin{split}
+			E(\text{loss}) &= (-\frac{2}{3} - \frac{1}{3}) \times (1 - p) \times (1 - q) \\
+			&= -0.34696859
+		\end{split}
+	\end{equation*}
+	So the expected value is $-0.0270$. This is exactly $\frac{36}{n} - 1$. As we mentioned before, no matter we choose, the expected value is always the same!
 	\subsubsection{Three chips}
 	Let's say we have 3 chips with the same value. We bet the first chip on black and the second on an even number and the third on the first 18 numbers.
 	\par At least 2 chips should be in win status to get money; otherwise we lose money. Unlike previous case, there is no tie here. So we have:
