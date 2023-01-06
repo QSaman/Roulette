@@ -54,12 +54,24 @@
 	\end{equation*}
 	Or we can say:
 	\begin{equation*}
-		b_i = (2^{i - 1}) \times p
+		b_i = 2^{i - 1} \times p
 	\end{equation*}
 	In other words, if our previous bet was $x$, we should bet $2 \times x$ this time!
 	\par If we want to afford to lose ${n - 1}$ times in a row and win in the $n^{th}$ round, our budget should be:
 	\begin{equation*}
 		budget = (2^n - 1) \times p
+	\end{equation*}
+	\par Now consider two bets in a round. Chip $L$ for betting on the color with payout 1 to 1 and chip $H$ for betting on a column with payout 2 to 1. For the first round $L$ has value $d_1 = p$ and $H$ has value $2d_1 = 2 \times p$. So we have:
+	\begin{equation*}
+		d_i = 4 \times d_{i - 1}
+	\end{equation*}
+	Or we can say:
+	\begin{equation*}
+		d_n = 4^{n - 1} \times p
+	\end{equation*}
+	And for the budget we have:
+	\begin{equation*}
+		\text{budget} = (4^n - 1) \times p
 	\end{equation*}
 	\section{Expected value}
 	The American roulette has 37 pockets and the Canadian has 36. We use $n$ for the number of pockets in the wheel. Let's assume we bet on $c$ numbers. For example for betting on number $1$, $c = 1$ and for a red number $c = 18$. The payout is $36 - c$ to $c$. That means for every \$$c$ bet, we get \$$36 - \$c$. We also receive the original \$$c$. So our total balance for \$$1$ if we would win is:
@@ -229,6 +241,38 @@
 		\end{split}
 	\end{equation*}
 	So the expected value is $-0.0270$. This is exactly $\frac{36}{n} - 1$. As we mentioned before, no matter what we choose, the expected value is always the same!
+	\par Now let's see how much we should bet if we lost previous round. We assume $d_i$ is the amount for $L$ for round $i$ and $b_i$ is the balance for round $i$. We have:
+	\begin{equation*}
+		b_i = d_i + 2d_i = 3d_i
+	\end{equation*}
+	Now let's calculate $d_i$. We use mathematical induction. We assume $d_k$ for $k < i$ is designed in such a way that if we win $d_i$, it covers all previous losses and also gain our target profit $T$:
+	\begin{equation*}
+		\begin{split}
+			d_i &= \sum_{j = 1}^{i - 1}{b_j} + T \\
+			&= \underbrace{\sum_{j = 1}^{i - 2} + T}_{d_{i - 1}} + b_{i - 1} \\
+			&= d_{i - 1} + \underbrace{b_{i - 1}}_{3d_{i - 1}} \\
+			&= 4 \times d_{i - 1}
+		\end{split}
+	\end{equation*}
+	So we have:
+	\begin{equation*}
+		\begin{split}
+			d_1 &= T \\
+			d_2 &= 4 \times d_1 = 4 \times T \\
+			d_3 &= 4 \times d_2 = 16 \times T \\
+			d_4 &= 4 \times d_3 = 64 \times T \\
+			&\vdots \\
+			d_n &= 4^{n - 1} \times T
+		\end{split}
+	\end{equation*}
+	Now let's calculate the budget:
+	\begin{equation*}
+		\begin{split}
+			\text{budget} &= \sum_{i = 1}^{n}{b_i} = \sum_{i = 1}^{n}{3 \times d_i} = \sum_{i = 1}^{n}{3 \times T \times 4^{i - 1}} \\
+			&= 3 \times T \times \sum_{i = 1}^{n}{4^{i - 1}} = 3 \times T \times \frac{4^n - 1}{3} \\
+			&= (4^n - 1) \times T
+		\end{split}
+	\end{equation*}
 	\subsubsection{Three chips}
 	Let's say we have 3 chips with the same value. We bet the first chip on black and the second on an even number and the third on the first 18 numbers.
 	\par At least 2 chips should be in win status to get money; otherwise we lose money. Unlike previous case, there is no tie here. So we have:
