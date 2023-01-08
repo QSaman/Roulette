@@ -291,9 +291,10 @@
 			&= (4^n - 1) \times T
 		\end{split}
 	\end{equation*} \\
-	Now let's calculate on average how many rounds it takes. Note that if we win, we stop playing. We continue playing if we lose or there is a tie. So we have:
+	Now let's calculate on average how many rounds it takes. Note that if we win, we stop playing. We continue playing if we lose. Tie is a bit complicated. If it's the first round and there is a tie, the game is over. We can start a new game later. If we aren't in round 1, then it means we lost in previous rounds. So we should continue, despite a tie. Let's assume our target profit is $d_0$:
 	\begin{equation*}
 		e(n, d) = \begin{cases}
+			1 + (1 - p) \times (1 - q) \times e(n - 3d, 4d) & n - 3d \ge 0 \land d = d_0 \\
 			1 + (1 - p) \times q \times e(n, d) + (1 - p) \times (1 - q) \times e(n - 3d, 4d) & n - 3d \ge 0 \\
 			0 & n - 3d < 0
 		\end{cases}
@@ -301,17 +302,62 @@
 	We can simplify it more:
 	\begin{equation*}
 		e(n, d) = \begin{cases}
+			1 + (1 - p) \times (1 - q) \times e(n - 3d, 4d) & n - 3d \ge 0 \land d = d_0 \\			
 			\frac{1}{1 - (1 - p) \times q} + (1 - \frac{p}{1 - (1 - p) \times q}) \times e(n - 3d, 4d) & n - 3d \ge 0 \\
 			0 & n - 3d < 0
 		\end{cases}
 	\end{equation*}	
-	For example $e(3150, 5) = 1.98$:
+	If we define $c = \frac{1}{1 - (1 - p) \times q}$, then we have:
+	\begin{equation*}
+	e(n, d) = \begin{cases}
+		1 + (1 - p) \times (1 - q) \times e(n - 3d, 4d) & n - 3d \ge 0 \land d = d_0 \\		
+		c + (1 - \frac{p}{c}) \times e(n - 3d, 4d) & n - 3d \ge 0 \\
+		0 & n - 3d < 0
+	\end{cases}
+	\end{equation*}	
+	For example $e(3150, 5) = 1.66$:
 	\begin{equation*}
 		\begin{split}
-			e(3150, 50) &= \frac{1}{1 - (1 - p) \times q} + (1 - \frac{p}{1 - (1 - p) \times q}) \times e(3000, 200) = 1.98 \\
-			e(3000, 200) &= \frac{1}{1 - (1 - p) \times q} + (1 - \frac{p}{1 - (1 - p) \times q}) \times e(2400, 800) = 1.87 \\
-			e(2400, 800) &= \frac{1}{1 - (1 - p) \times q} + (1 - \frac{p}{1 - (1 - p) \times q}) \times e(0, 3200) = 1.62 \\
+			e(3150, 50) &= 1 + (1 - p) \times (1 - q) \times e(3000, 200) = 1.66 \\
+			e(3000, 200) &= c + (1 - \frac{p}{c}) \times e(2400, 800) = 1.91 \\
+			e(2400, 800) &= c + (1 - \frac{p}{c}) \times e(0, 3200) = 1.20 \\
 			e(0, 3200) &= 0
+		\end{split}
+	\end{equation*}
+	Note that there is a maximum bet in each round in most casinos. $e(2400, 800)$ means you bet $800 + 2 \times 800 = 2400$ which is not possible in some casinos. Let's assume we cannot bet more than \$2000 in each round. Let's compare one-chip bet and two-chip bet in one round.
+	\par Note that If a cell has a value like $v1, v2$. It means $v_1$ is for one-chip bet and $v_2$ is for two-chip bet. "Max rounds" means the maximum rounds that we can afford to play. If a row doesn't have multiple values, it means with the targeted profit, 2-chip bet is not possible. \\
+	\begin{tabular}[h!]{c c c c c}
+		\toprule
+		Max rounds & Profit & Budget & Expected rounds & chance of loss \\
+		\midrule
+		1 & 2000 & 2000 & 1 & 51\% \\
+		1 & 665 & 665, 1995 & 1, 1 & 51\%, 35\% \\
+		2 & 100 & 300, 1500 & 1.51, 1.42 & 51\%, 35\% \\
+		2 & 1000 & 3000 & 1.51 & 51\% \\
+		2 & 500 & 1500, 7500 & 1.51, 1.42 & 51\%, 35\% \\
+		3 & 100 & 700 & 1.78 & 51\% \\
+		\textbf{3} & \textbf{50} & \textbf{350, 3150} & \textbf{1.78, 1.66} & \textbf{51\%, 35\%} \\
+		3 & 500 & 3500 & 1.78 & 51\% \\
+		4 & 100 & 1500 & 1.91 & 51\% \\
+		4 & 30 & 450, 7650 & 1.91, 1.81 & 51\%, 35\% \\
+		4 & 250 & 3750 & 1.91 & 51\% \\
+		\textbf{5} & \textbf{100} & \textbf{3100} & \textbf{1.98} & \textbf{51\%} \\
+		5 & 5 & 155, 5115 & 1.98, 1.90 & 51\%, 35\% \\		
+		\bottomrule
+	\end{tabular} \\
+	\par
+	Choosing the profit is important. Let's assume we want to be able to play at most $n$ rounds. For one chip it should be:
+	\begin{equation*}
+		\begin{split}
+			2^{n - 1} \times \text{profit} &\le 2000 \\
+			\implies \text{profit} &\le \frac{2000}{2^{n - 1}}			
+		\end{split}
+	\end{equation*}
+	For two-chip bet, we have:
+	\begin{equation*}
+		\begin{split}
+			4^{n - 1} \times \text{profit} \le 2000 \\
+			\implies \text{profit} &\le \frac{2000}{4^{n -1}}
 		\end{split}
 	\end{equation*}
 	\subsubsection{Three chips}
