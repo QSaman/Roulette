@@ -291,7 +291,7 @@
 			&= (4^n - 1) \times T
 		\end{split}
 	\end{equation*} \\
-	Now let's calculate on average how many rounds it takes. Note that if we win, we stop playing. We continue playing if we lose. Tie is a bit complicated. If it's the first round and there is a tie, the game is over. We can start a new game later. If we aren't in round 1, then it means we lost in previous rounds. So we should continue, despite a tie. Let's assume our target profit is $d_0$:
+	Now let's calculate on average how many rounds it takes. Note that if we win, we stop playing. We continue playing if we lose. Tie is a bit complicated. If it's the first round and there is a tie, the game is over. We can start a new game later. If tie happens in other rounds, then it means we lost in previous rounds. So we should continue, even though we have a tie, to cancel previous losses. We also can treat tie in round 1 like other rounds. But that means $e(3d, d) > 1$. In other words the expected rounds when we have budget only for one round will be greater than 1. Let's assume our target profit is $d_0$:
 	\begin{equation*}
 		e(n, d) = \begin{cases}
 			1 + (1 - p) \times (1 - q) \times e(n - 3d, 4d) & n - 3d \ge 0 \land d = d_0 \\
