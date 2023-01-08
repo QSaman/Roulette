@@ -146,6 +146,24 @@
 		US & 47\% & 53\% \\
 		\bottomrule
 	\end{tabular} \\
+	Let's calculate on average how many rounds it takes. Note that if we win, we stop playing. We continue playing if we lose:
+	\begin{equation*}
+		e(n, d) = \begin{cases}
+			1 + (1 - p) \times e(n - d, 2d) & n - d \ge 0 \\
+			0 & n - d < 0
+		\end{cases}
+	\end{equation*}
+	For example $e(3100, 100) = 1.98$:
+	\begin{equation*}
+		\begin{split}
+			e(3100, 100) &= 1 + (1 - p) \times e(3000, 200) = 1.98 \\
+			e(3000, 200 &= 1 + (1 - p) \times e(2800, 400) = 1.91 \\
+			e(2800, 400) &= 1 + (1 - p) \times e(2400, 800) = 1.78 \\
+			e(2400, 800) &= 1 + (1 - p) \times e(1600, 1600) = 1.51 \\
+			e(1600, 1600) &= 1 + (1 - p) \times e(0, 3200) = 1 \\
+			e(0, 3200) &= 0
+		\end{split}
+	\end{equation*}
 	\subsubsection{Two chips}
 	\label{subsubsection_two_chips}
 	Let's say we have two chips with the same value. We bet the first chip on black and the second on an even number. If one of the chips wins and the other loses, it's a tie. So we don't gain or lose money. So we have:
@@ -271,6 +289,22 @@
 			\text{budget} &= \sum_{i = 1}^{n}{b_i} = \sum_{i = 1}^{n}{3 \times d_i} = \sum_{i = 1}^{n}{3 \times T \times 4^{i - 1}} \\
 			&= 3 \times T \times \sum_{i = 1}^{n}{4^{i - 1}} = 3 \times T \times \frac{4^n - 1}{3} \\
 			&= (4^n - 1) \times T
+		\end{split}
+	\end{equation*} \\
+	Now let's calculate on average how many rounds it takes. Note that if we win or tie, we stop playing. We continue playing if we lose. Note that when there is a tie, we consider the current game over. We can start a new game. So we have
+	\begin{equation*}
+		e(n, d) = \begin{cases}
+			1 + (1 - p) \times (1 - q) \times e(n - 3d, 4d) & n - 3d \ge 0 \\
+			0 & n - 3d < 0
+		\end{cases}
+	\end{equation*}
+	For example $e(3150, 5) = 1.47$:
+	\begin{equation*}
+		\begin{split}
+			e(3150, 50) &= 1 + (1 - p) \times (1 - q) \times e(3000, 200) = 1.47 \\
+			e(3000, 200) &= 1 + (1 - p) \times (1 - q) \times e(2400, 800) = 1.35 \\
+			e(2400, 800) &= 1 + (1 - p) \times (1 - q) \times e(0, 3200) = 1 \\
+			e(0, 3200) &= 0
 		\end{split}
 	\end{equation*}
 	\subsubsection{Three chips}
