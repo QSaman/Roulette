@@ -291,19 +291,26 @@
 			&= (4^n - 1) \times T
 		\end{split}
 	\end{equation*} \\
-	Now let's calculate on average how many rounds it takes. Note that if we win or tie, we stop playing. We continue playing if we lose. Note that when there is a tie, we consider the current game over. We can start a new game. So we have
+	Now let's calculate on average how many rounds it takes. Note that if we win, we stop playing. We continue playing if we lose or there is a tie. So we have:
 	\begin{equation*}
 		e(n, d) = \begin{cases}
-			1 + (1 - p) \times (1 - q) \times e(n - 3d, 4d) & n - 3d \ge 0 \\
+			1 + (1 - p) \times q \times e(n, d) + (1 - p) \times (1 - q) \times e(n - 3d, 4d) & n - 3d \ge 0 \\
 			0 & n - 3d < 0
 		\end{cases}
 	\end{equation*}
-	For example $e(3150, 5) = 1.47$:
+	We can simplify it more:
+	\begin{equation*}
+		e(n, d) = \begin{cases}
+			\frac{1}{1 - (1 - p) \times q} + (1 - \frac{p}{1 - (1 - p) \times q}) \times e(n - 3d, 4d) & n - 3d \ge 0 \\
+			0 & n - 3d < 0
+		\end{cases}
+	\end{equation*}	
+	For example $e(3150, 5) = 1.98$:
 	\begin{equation*}
 		\begin{split}
-			e(3150, 50) &= 1 + (1 - p) \times (1 - q) \times e(3000, 200) = 1.47 \\
-			e(3000, 200) &= 1 + (1 - p) \times (1 - q) \times e(2400, 800) = 1.35 \\
-			e(2400, 800) &= 1 + (1 - p) \times (1 - q) \times e(0, 3200) = 1 \\
+			e(3150, 50) &= \frac{1}{1 - (1 - p) \times q} + (1 - \frac{p}{1 - (1 - p) \times q}) \times e(3000, 200) = 1.98 \\
+			e(3000, 200) &= \frac{1}{1 - (1 - p) \times q} + (1 - \frac{p}{1 - (1 - p) \times q}) \times e(2400, 800) = 1.87 \\
+			e(2400, 800) &= \frac{1}{1 - (1 - p) \times q} + (1 - \frac{p}{1 - (1 - p) \times q}) \times e(0, 3200) = 1.62 \\
 			e(0, 3200) &= 0
 		\end{split}
 	\end{equation*}
