@@ -73,6 +73,17 @@
 	\begin{equation*}
 		\text{budget} = (4^n - 1) \times p
 	\end{equation*}
+	\section{Payout}
+	Let's assume you bet on $c$ numbers. The payout is $36 - c$ to $c$. For example the payout for betting on a number is 35 to 1 and betting on a dozen is 24 to 12 or 2 to 1. Ideally the payout would be $37 - c$ to $c$. During the payout, casino doesn't consider one pocket! We can consider it as fees. Let's calculate that fee:
+	\begin{equation*}
+		\begin{split}
+			\frac{37 - c}{c} \times (1 - f) &= \frac{36 - c}{c} \\
+			\implies (37 - c) \times (1 - f) &= 36 - c \\
+			\implies f &= \frac{1}{37 - c}
+		\end{split}
+	\end{equation*}
+	So if you bet on a number, casino gets all of it, if you lose and it gets $2.77\%$ of your profit if you win!
+	\par If you bet on more numbers, the chance of losing decreases, but the fee goes up. Let's say you bet on a dozen. If you win, the casino gets $4\%$ of your profit. If you bet on the color, it gets $5.26\%$ of your profit.
 	\section{Expected value}
 	The American roulette has 37 pockets and the Canadian has 36. We use $n$ for the number of pockets in the wheel. Let's assume we bet on $c$ numbers. For example for betting on number $1$, $c = 1$ and for a red number $c = 18$. The payout is $36 - c$ to $c$. That means for every \$$c$ bet, we get \$$36 - \$c$. We also receive the original \$$c$. So our total balance for \$$1$ if we would win is:
 	\begin{equation*}
